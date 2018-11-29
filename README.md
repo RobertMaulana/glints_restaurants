@@ -1,5 +1,5 @@
-# Forex Exchange Currencies
-Simple Forex Exchange Currencies App
+# Glints Restaurant
+Glints Restaurant App
 
 
 ### Requirements
@@ -8,7 +8,7 @@ Simple Forex Exchange Currencies App
 - [enzyme](https://airbnb.io/enzyme/)
 
 ### Run App without docker
-To run Forex Exchange Currencies App in development environment use this command
+To run Glints Restaurant App in development environment use this command
 ```
 $ npm install
 $ npm run start
@@ -23,26 +23,26 @@ $ npm run test
 ### Run App via docker
 Make sure you have docker installed
 ```
-$ docker image build -t foreign_exchange_currency:1.0.0 .
-$ docker container run -it -p 3000:3000 foreign_exchange_currency:1.0.0
+$ docker image build -t glints_restaurant:1.0.0 .
+$ docker container run -it -p 3000:3000 glints_restaurant:1.0.0
 ```
 
 ### Run App with hot reloading via docker
 ```
-$ docker container run -it -p 3000:3000 -p 35729:35729 -v $(pwd):/app foreign_exchange_currency:1.0.0
+$ docker container run -it -p 3000:3000 -p 35729:35729 -v $(pwd):/app glints_restaurant:1.0.0
 ```
 
 ### Run test via docker
 ```
-$ docker container run -it -v $(pwd):/app foreign_exchange_currency:1.0.0 test
+$ docker container run -it -v $(pwd):/app glints_restaurant:1.0.0 test
 ```
 
 ### Run inspect container of docker
 ```
-$ docker container run -it foreign_exchange_currency:1.0.0 bash
+$ docker container run -it glints_restaurant:1.0.0 bash
 ```
 
 ### Build and Run
 ```
-$ docker container run -it -v $(pwd):/app foreign_exchange_currency:1.0.0 build
+$ docker container run -it -v $(pwd):/app glints_restaurant:1.0.0 build
 ```
