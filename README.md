@@ -1,6 +1,8 @@
-# Glints Restaurant
-Glints Restaurant App
+# Part 1: Programming
 
+
+# Part 2: Glints Restaurant
+Glints Restaurant App
 
 ### Requirements
 - [Node 8](https://nodejs.org/en/blog/release/v8.9.0/)
