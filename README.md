@@ -1,6 +1,3 @@
-# Part 1: Programming
-
-
 # Part 2: Glints Restaurant
 Glints Restaurant App
 
