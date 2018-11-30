@@ -58,7 +58,7 @@ const signin = async (req, res) => {
         return res.status(500).json({ message: error.message })
     }
     
-    const token = jwt.sign({ email }, response.password)
+    const token = jwt.sign({ email }, 'AADE68ADC556389BE4A79AF788DCA')
     res.status(200).json({token})
 }
 

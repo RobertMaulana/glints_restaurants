@@ -1,9 +1,11 @@
 const express = require('express')
 const app = express()
 const db = require('./db')
-const routersAuth = require('./routers/auth')
 const cors = require('cors')
 const bodyParser = require('body-parser')
+
+const routersAuth = require('./routers/auth')
+const routersRestaurants = require('./routers/restaurants')
 
 const port = process.env.PORT || 30001
 
@@ -25,6 +27,7 @@ app.use(bodyParser.json())
 // Routes
 const base = '/api'
 app.use(`${base}/auth`, routersAuth)
+app.use(`${base}/restaurants`, routersRestaurants)
 
 app.listen(port, () => {
     console.info(`Server is started at port ${port}`)
