@@ -11,7 +11,7 @@ const checkAuth = (req, res, next) => {
         try {
 
             response = await Users.findOne({where: {email: decoded.email}})
-        
+            
             if (response === null) {
                 return res.status(401).json({ message: 'Unauthorized!' })
             }

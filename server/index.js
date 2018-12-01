@@ -6,6 +6,7 @@ const bodyParser = require('body-parser')
 
 const routersAuth = require('./routers/auth')
 const routersRestaurants = require('./routers/restaurants')
+const routersCollections = require('./routers/collections')
 
 const port = process.env.PORT || 30001
 
@@ -28,6 +29,7 @@ app.use(bodyParser.json())
 const base = '/api'
 app.use(`${base}/auth`, routersAuth)
 app.use(`${base}/restaurants`, routersRestaurants)
+app.use(`${base}/collections`, routersCollections)
 
 app.listen(port, () => {
     console.info(`Server is started at port ${port}`)
