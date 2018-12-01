@@ -8,4 +8,10 @@ router.get(
     controller.getRestaurants
 )
 
+router.get(
+    '/find', 
+    checkAuth,
+    controller.getRestaurantsByDate
+)
+
 module.exports = router
