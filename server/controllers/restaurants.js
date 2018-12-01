@@ -18,6 +18,24 @@ const getRestaurants = async (req, res) => {
     res.status(200).json(response)
 }
 
+const getDetailRestaurant = async (req, res) => {
+    let response
+    try {
+        const {id} = req.params
+        response = await Restaurants.findOne({
+            where: {id}
+        })
+    } catch (error) {
+        console.error(error.errors)
+        if (error.errors && error.errors.length > 0) {
+            const first = error.errors[0]
+            return res.status(400).json({ message: first.message })
+        }
+        return res.status(500).json({ message: error.message })
+    }
+    res.status(200).json(response)
+}
+
 const getRestaurantsByDate = async (req, res) => {
     const {q} = req.query
     if (q === '' || Object.values(req.query).length < 1) {
@@ -64,6 +82,7 @@ const addCollections = async (req, res) => {
 
 module.exports = {
     getRestaurants,
+    getDetailRestaurant,
     getRestaurantsByDate,
     addCollections
 }

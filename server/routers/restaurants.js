@@ -11,6 +11,12 @@ router.get(
 )
 
 router.get(
+    '/detail/:id', 
+    checkAuth,
+    controller.getDetailRestaurant
+)
+
+router.get(
     '/find', 
     checkAuth,
     controller.getRestaurantsByDate
