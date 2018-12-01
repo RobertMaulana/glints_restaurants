@@ -1,5 +1,6 @@
 const Restaurants = require('../models/restaurants')
 const Collections = require('../models/collections')
+const Users = require('../models/users')
 const CollectionsRestaurants = require('../models/collectionsRestaurants')
 const Sequelize = require('sequelize')
 const $ = Sequelize.Op
@@ -24,7 +25,13 @@ const getDetailRestaurant = async (req, res) => {
     try {
         const {id} = req.params
         response = await Restaurants.findOne({
-            where: {id}
+            where: {id},
+            include: [
+                {
+                    model: CollectionsRestaurants,
+                    include: [Collections, Users]
+                }
+            ]
         })
     } catch (error) {
         console.error(error.errors)
