@@ -1,4 +1,5 @@
 const Restaurants = require('../models/restaurants')
+const Collections = require('../models/collections')
 const Sequelize = require('sequelize')
 const $ = Sequelize.Op
 
@@ -40,7 +41,29 @@ const getRestaurantsByDate = async (req, res) => {
     res.status(200).json(response)
 }
 
+const addCollections = async (req, res) => {
+    const {restaurant_id, user_id, name} = req.body
+    let response 
+    try {
+        const data = {
+            name,
+            userId: user_id,
+            restaurantId: restaurant_id
+        }
+        response = await Collections.create(data)
+    } catch (error) {
+        console.error(error.errors)
+        if (error.errors && error.errors.length > 0) {
+            const first = error.errors[0]
+            return res.status(400).json({ message: first.message })
+        }
+        return res.status(500).json({ message: error.message })
+    }
+    res.status(201).json(response)
+}
+
 module.exports = {
     getRestaurants,
-    getRestaurantsByDate
+    getRestaurantsByDate,
+    addCollections
 }
