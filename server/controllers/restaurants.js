@@ -79,8 +79,10 @@ const addCollections = async (req, res) => {
     let response 
     try {
         const checkDuplicate = await CollectionsRestaurants.findAll({
-            restaurantId: restaurant_id,
-            userId: user_id
+            where: {
+                restaurantId: restaurant_id,
+                userId: user_id
+            }
         })
         if (checkDuplicate.length > 0) {
             return res.status(400).json({ message: 'This restaurant is already added as collection' })
