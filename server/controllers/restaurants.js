@@ -8,7 +8,14 @@ const $ = Sequelize.Op
 const getRestaurants = async (req, res) => {
     let response
     try {
-        response = await Restaurants.findAll({})
+        response = await Restaurants.findAll({
+            include: [
+                {
+                    model: CollectionsRestaurants,
+                    include: [Collections, Users]
+                }
+            ]
+        })
     } catch (error) {
         console.error(error.errors)
         if (error.errors && error.errors.length > 0) {
@@ -71,6 +78,13 @@ const addCollections = async (req, res) => {
     const {restaurant_id, user_id, name} = req.body
     let response 
     try {
+        const checkDuplicate = await CollectionsRestaurants.findAll({
+            restaurantId: restaurant_id,
+            userId: user_id
+        })
+        if (checkDuplicate.length > 0) {
+            return res.status(400).json({ message: 'This restaurant is already added as collection' })
+        }
         const createCollections = await Collections.create({name})
         response = await CollectionsRestaurants.create({
             collectionId: createCollections.get('id'),

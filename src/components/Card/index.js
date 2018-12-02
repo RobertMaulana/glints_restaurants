@@ -3,6 +3,9 @@ import {Icon} from 'antd'
 import {CardContainer} from './card.style'
 
 class Card extends React.Component {
+    onFavourite = (id, name) => {
+        this.props.collectionPopup(id, name, true)
+    }
     render() {
         const {data} = this.props
         if (data.length > 0) {
@@ -17,6 +20,7 @@ class Card extends React.Component {
                                 <Icon 
                                     type="star"
                                     style={{cursor: 'pointer'}}
+                                    onClick={() => this.onFavourite(val.id, val.name)}
                                 />
                             </span>
                         </div>

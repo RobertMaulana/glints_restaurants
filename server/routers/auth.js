@@ -19,4 +19,12 @@ router.post(
     controller.signin
 )
 
+router.post(
+    '/details', 
+    [
+        check('token').exists()
+    ],
+    controller.detailsUser
+)
+
 module.exports = router

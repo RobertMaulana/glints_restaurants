@@ -14,3 +14,12 @@ export const DatePickerStyled = styled.div`
         border-radius: 0;
     }
 `
+
+export const CollectionInput = styled.input`
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    display: inline-block;
+    border: none;
+    background: #f1f1f1;
+`

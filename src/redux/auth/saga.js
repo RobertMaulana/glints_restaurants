@@ -3,9 +3,7 @@ import { push } from 'react-router-redux'
 import { getToken, clearToken } from '../../helpers/utility'
 import request from '../../request/axios/auth'
 import actions from './actions'
-// import request from '../../request/axios/auth'
 import Cookies from 'universal-cookie'
-// import middleware from '../../middleware/responseChecker'
 
 const cookies = new Cookies()
 
@@ -47,10 +45,30 @@ export function* signout() {
   })
 }
 
+export function* getUserDetailsRequest() {
+  yield takeEvery(actions.GET_USER_DETAILS, function*() {
+    let res = yield call(request.getUserDetails)
+    if (res.status === 200) {
+      yield put({
+        type: actions.USER_DETAILS,
+        getUserDetailsMessage: 'success',
+        data: res.data.response,
+      })
+    } else {
+      yield put({
+        type: actions.USER_DETAILS,
+        getUserDetailsMessage: 'failed',
+        data: {}
+      })
+    }
+  })
+}
+
 export default function* rootSaga() {
   yield all([
     fork(checkAuthorization),
     fork(signin),
-    fork(signout)
+    fork(signout),
+    fork(getUserDetailsRequest)
   ])
 }

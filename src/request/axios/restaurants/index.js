@@ -1,4 +1,5 @@
 import getRequest from '../get'
+import authPostRequest from '../authPost'
 import url from '../../endpoint/restaurants'
 
 const getRestaurants = async () => {
@@ -19,7 +20,17 @@ const searchRestaurants = async ({payload}) => {
     }
 }
 
+const saveCollections = async ({payload}) => {
+    try {
+        const base = url.saveCollectionsUrl()
+        return await authPostRequest(base, payload)
+    } catch (error) {
+        return error
+    }
+}
+
 export default {
     getRestaurants,
-    searchRestaurants
+    searchRestaurants,
+    saveCollections
 }

@@ -40,9 +40,29 @@ export function* searchRestaurantsRequest() {
   })
 }
 
+export function* saveCollectionsRequest() {
+  yield takeEvery(actions.SAVE_COLLECTIONS, function*(payload) {
+    let res = yield call(request.saveCollections, payload)
+    if (res.status === 201) {
+      yield put({
+        type: actions.SAVE_COLLECTIONS_STATUS,
+        saveCollectionsMessage: 'success',
+        data: res.data,
+      })
+    } else {
+      yield put({
+        type: actions.SAVE_COLLECTIONS_STATUS,
+        saveCollectionsMessage: 'failed',
+        data: []
+      })
+    }
+  })
+}
+
 export default function* rootSaga() {
   yield all([
     fork(getRestaurantRequest),
-    fork(searchRestaurantsRequest)
+    fork(searchRestaurantsRequest),
+    fork(saveCollectionsRequest)
   ])
 }

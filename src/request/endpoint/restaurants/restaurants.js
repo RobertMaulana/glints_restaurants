@@ -8,7 +8,12 @@ const searchRestaurantsUrl = payload => {
     return `${host}api/restaurants/find?q=${payload}`
 }
 
+const saveCollectionsUrl = () => {
+    return `${host}api/restaurants/collections`
+}
+
 export default {
     restaurants,
-    searchRestaurantsUrl
+    searchRestaurantsUrl,
+    saveCollectionsUrl
 }

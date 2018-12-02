@@ -2,7 +2,9 @@ import actions from './actions'
 
 const initState = {
   idToken: null,
-  signinMessage: ''
+  signinMessage: '',
+  getUserDetailsMessage: '',
+  users: {}
 }
 
 export default function authReducer(state = initState, action) {
@@ -16,6 +18,12 @@ export default function authReducer(state = initState, action) {
       return {
         ...state,
         signinMessage: action.signinMessage
+      }
+    case actions.USER_DETAILS:
+      return {
+        ...state,
+        users: action.data,
+        getUserDetailsMessage: action.getUserDetailsMessage
       }
     case actions.LOGOUT:
       return initState
