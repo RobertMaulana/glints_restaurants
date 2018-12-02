@@ -35,19 +35,15 @@ const signin = async (req, res) => {
 
     let response
     try {
-        response = await Users.findOne(
-            {attributes: ['email', 'password']},
-            {where: {email}}
-        )
-    
+        response = await Users.findOne({where: {email}})
         if (response === null) {
             return res.status(404).json({ message: 'User not found' })
         }
-    
+        
         const isAuth = await bcrypt.compare(password, response.password)
-    
+        
         if (!isAuth) {
-            return res.status(401).json({ message: 'Unauthorized!' })
+            return res.status(401).json({ message: 'Check your password' })
         }
     } catch (error) {
         console.error(error.errors)

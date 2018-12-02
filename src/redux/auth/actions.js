@@ -1,13 +1,24 @@
 const actions = {
   CHECK_AUTHORIZATION: 'CHECK_AUTHORIZATION',
-  LOGIN_REQUEST: 'LOGIN_REQUEST',
-  LOGOUT: 'LOGOUT',
+  SIGNOUT: 'SIGNOUT',
+  SIGNIN: 'SIGNIN',
+  SIGNIN_SUCCESS: 'SIGNIN_SUCCESS',
+  SIGNIN_FAILED: 'SIGNIN_FAILED',
   checkAuthorization: () => ({ type: actions.CHECK_AUTHORIZATION }),
-  login: () => ({
-    type: actions.LOGIN_REQUEST
-  }),
   signOut: () => ({
-    type: actions.LOGOUT
+    type: actions.SIGNOUT
+  }),
+  signIn: payload => ({
+    type: actions.SIGNIN,
+    payload
+  }),
+  signinSuccess: payload => ({
+    type: actions.SIGNIN_SUCCESS,
+    payload
+  }),
+  signinFailed: payload => ({
+    type: actions.SIGNIN_FAILED,
+    payload
   })
 }
 

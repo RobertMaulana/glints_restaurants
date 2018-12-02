@@ -1,25 +1,15 @@
 import postRequest from '../post'
 import url from '../../endpoint/auth'
 
-const sendOtp = async ({payload}) => {
+const signInUrl = async ({payload}) => {
     try {
-        const base = url.generateOtp()
-        return await postRequest(base, {phone: payload,partner: "pasarpolis"}) //needs to change to actual partner
-    } catch (error) {
-      return error.message
-    }
-}
-
-const verifyOtp = async ({payload}) => {
-    try {
-        const base = url.verifyOtp()
+        const base = url.signIn()
         return await postRequest(base, payload)
     } catch (error) {
-      return error.message
+        return error
     }
 }
 
 export default {
-    sendOtp,
-    verifyOtp
+    signInUrl
 }

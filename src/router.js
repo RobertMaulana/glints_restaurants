@@ -1,10 +1,9 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
-// import Header from './components/Header/header'
-// import asyncComponent from './helpers/AsyncFunc'
-import App from './containers/Home'
+import App from './containers/App'
 import Signup from './containers/Signup'
+import Signin from './containers/Signin'
 
 const RestrictedRoute = ({ component: Component, isLoggedIn, ...rest }) => {
     return (
@@ -35,8 +34,13 @@ const PublicRoutes = ({ isLoggedIn }) => {
                     path={'/signup'}
                     render={() => <Signup />}
                 />
+                <Route
+                    exact
+                    path={'/signin'}
+                    render={() => <Signin />}
+                />
                 <RestrictedRoute
-                    path="/"
+                    path='/'
                     component={App}
                     isLoggedIn={isLoggedIn}
                 />

@@ -9,6 +9,9 @@ const Home = () => (
         <PublicRoutes history={history} />
     </Provider>
 )
-Boot().then(() => Home()).catch(error => console.error(error))
+
+Boot()
+    .then(() => Home())
+    .catch(error => console.error(error))
 
 export default Home
