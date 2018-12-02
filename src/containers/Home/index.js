@@ -1,71 +1,95 @@
 import React from 'react'
-import { Layout, Menu, DatePicker, Row, Col, Button } from 'antd'
+import {connect} from 'react-redux'
+import { Layout, DatePicker, Row, Col, Button, Spin } from 'antd'
 import {DatePickerStyled} from './home.style'
 import moment from 'moment'
+import Header from '../../components/Header'
+import Footer from '../../components/Footer'
+import Card from '../../components/Card'
+import restaurantActions from '../../redux/restaurants/actions'
 
-const { Header, Content, Footer } = Layout
+const { Content } = Layout
+const {getRestaurants, searchRestaurants} = restaurantActions
 
 class Home extends React.Component {
     state = {
-        date: ''
+        date: '',
+        loading: true,
+        restaurants: []
+    }
+    componentWillReceiveProps(nextProps) {
+        const {getRestaurantMessage, restaurants} = nextProps.Restaurants
+        if (getRestaurantMessage !== '') {
+            this.setState({
+                restaurants,
+                loading: false
+            })
+        }
+    }
+    componentDidMount() {
+        this.props.getRestaurants()
     }
     onChange = (date, dateString) => {
-        this.setState({date: moment(dateString).format('ddd hh A')})
+        this.setState({date: dateString})
     }
     onSearch = () => {
-        console.log(this.state.date)
+        if (this.state.date === '') {
+            alert('date time is mandatory')
+            return
+        }
+        this.setState({loading: true})
+        setTimeout(() => {
+            this.props.searchRestaurants(this.state.date)
+        }, 2000)
     }
     render() {
+        const {loading, restaurants} = this.state
         return (
             <DatePickerStyled>
                 <Layout>
-                    <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
-                        <div className="logo" />
-                        <Menu
-                            theme="dark"
-                            mode="horizontal"
-                            defaultSelectedKeys={['2']}
-                            style={{ lineHeight: '64px' }}
-                        >
-                            <Menu.Item key="1">Profile</Menu.Item>
-                            <Menu.Item key="2">Restaurant</Menu.Item>
-                            <Menu.Item key="3">Signout</Menu.Item>
-                        </Menu>
-                    </Header>
+                    <Header />
                     <Row style={{display: 'flex', justifyContent: 'center'}}>
                         <Col span={12}>
-                            <Content style={{ padding: '0 50px', marginTop: 80 }}>
-                                <div 
-                                    style={{ 
-                                        background: '#fff', 
-                                        padding: 24, 
-                                        minHeight: 380
-                                    }}
-                                >
-                                    <div style={{display: 'flex'}}>
-                                        <DatePicker 
-                                            className='date-filter' 
-                                            onChange={this.onChange}
-                                            format='ddd hh A'
-                                            showTime={{ defaultValue: moment('00:00:00', 'HH:mm:ss') }}
-                                        />
-                                        <Button 
-                                            type='primary' 
-                                            className='btn-filter'
-                                            onClick={this.onSearch}
-                                        >Search</Button>
+                            <Spin spinning={loading}>
+                                <Content style={{ padding: '0 50px', marginTop: 80 }}>
+                                    <div 
+                                        style={{ 
+                                            background: '#fff', 
+                                            padding: 24, 
+                                            minHeight: 380
+                                        }}
+                                    >
+                                        <div style={{display: 'flex'}}>
+                                            <DatePicker 
+                                                className='date-filter' 
+                                                onChange={this.onChange}
+                                                format='ddd hh A'
+                                                showTime={{ defaultValue: moment('00:00:00', 'HH:mm') }}
+                                            />
+                                            <Button 
+                                                type='primary' 
+                                                className='btn-filter'
+                                                onClick={this.onSearch}
+                                            >
+                                                Search
+                                            </Button>
+                                        </div>
+                                        <Card data={restaurants}/>
                                     </div>
-                                </div>
-                            </Content>
+                                </Content>
+                            </Spin>
                         </Col>
                     </Row>
-                    <Footer style={{ textAlign: 'center' }}>
-                        Glints Restaurant ©2018
-                    </Footer>
+                    <Footer />
                 </Layout>
             </DatePickerStyled>
         )
     }
 }
 
-export default Home
+export default connect(
+    state => ({
+        Restaurants: state.Restaurants
+    }),
+    {getRestaurants, searchRestaurants}
+)(Home)

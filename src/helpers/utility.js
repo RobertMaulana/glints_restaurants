@@ -11,7 +11,7 @@ export function getHeader(){
   let token = getToken().get('token');
   return {
     'Content-Type': 'application/json',
-    'Authorization':"Bearer "+ token
+    'Authorization': "Bearer "+ token
   }
 }
 
