@@ -30,6 +30,9 @@ const base = '/api'
 app.use(`${base}/auth`, routersAuth)
 app.use(`${base}/restaurants`, routersRestaurants)
 app.use(`${base}/collections`, routersCollections)
+app.use(`/signup`, (req, res) => {
+  res.send('signup please')
+})
 
 app.listen(port, () => {
     console.info(`Server is started at port ${port}`)

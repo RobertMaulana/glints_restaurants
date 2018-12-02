@@ -1,30 +1,37 @@
 const Users = require('../models/users')
+const Invitations = require('../models/invitations')
 const bcrypt = require('bcrypt')
 const { validationResult } = require('express-validator/check')
+const sendInvitation = require('../helpers/sendMail')
+const randomToken = require('random-token').gen('89615B84CC6B2C8FBCCDB54CA6B97');
 
-const shareCollections = async (req, res) => {
-    res.send('share collections')
-    // const errors = validationResult(req)
-    // if (!errors.isEmpty()) {
-    //     return res.status(422).json({ errors: errors.array() })
-    // }
-    // const {email, password, fullname} = req.body
-    // const encryptedPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(8), null)
+const inviteCollections = async (req, res) => {
+    const {email_to, collection_id, user_id} = req.body
+    let response
+    try {
+        response = await Invitations.create({
+            email: email_to,
+            collectionId: collection_id,
+            userId: user_id,
+            token: randomToken(24)
+        })
+        await sendInvitation(response)
+    } catch (error) {
+        console.error(error)
+        if (error.errors && error.errors.length > 0) {
+            const first = error.errors[0]
+            return res.status(400).json({ message: first.message })
+        }
+        return res.status(500).json({ message: error.message })
+    }
+    res.status(200).json(response)
+}
 
-    // let response
-    // try {
-    //     response = await Users.create({email, password: encryptedPassword, fullname})
-    // } catch (error) {
-    //     console.error(error.errors)
-    //     if (error.errors && error.errors.length > 0) {
-    //         const first = error.errors[0]
-    //         return res.status(400).json({ message: first.message })
-    //     }
-    //     return res.status(500).json({ message: error.message })
-    // }
-    // res.status(201).json({response})
+const acceptCollectionsInvitation = async (req, res) => {
+    res.send('yay, accept')
 }
 
 module.exports = {
-    shareCollections
+    inviteCollections,
+    acceptCollectionsInvitation
 }

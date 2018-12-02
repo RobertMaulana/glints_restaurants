@@ -3,6 +3,14 @@ const Users = require('../models/users')
 
 const checkAuth = (req, res, next) => {
     const {authorization} = req.headers
+    if (authorization === undefined) {
+        if (req.query.hasOwnProperty('token')) {
+            const {from, colId, usId, token} = req.query
+            res.redirect(`http://localhost:30001/signup?from=${from}&colId=${colId}&usId=${usId}&token=${token}`)
+            return
+        }
+        res.redirect('http://localhost:30001/signup')
+    }
     jwt.verify(authorization.split(' ')[1], 'AADE68ADC556389BE4A79AF788DCA', async (error, decoded) => {
         if (error !== null) {
             return res.status(401).json({ message: 'Unauthorized!' })
