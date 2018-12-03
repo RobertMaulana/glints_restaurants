@@ -4,7 +4,6 @@ import actions from './actions'
 
 export function* getCollectionsByUserIdRequest() {
   yield takeEvery(actions.GET_COLLECTIONS, function*(payload) {
-    console.log(payload)
     let res = yield call(request.getCollectionsByUserId, payload)
     if (res.status === 200) {
       yield put({

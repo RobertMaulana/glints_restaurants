@@ -1,5 +1,5 @@
 import React from 'react'
-import {Icon} from 'antd'
+import {Icon, Popconfirm} from 'antd'
 import {CardContainer} from './card.style'
 import moment from 'moment'
 
@@ -12,6 +12,12 @@ class Card extends React.Component {
     }
     editCollection(colId, name, userId) {
         this.props.editCollections(colId, name, userId)
+    }
+    confirm = (e) => {
+        console.log('Click on Yes')
+    }
+    cancel = e => {
+        return
     }
     render() {
         const {data, users, collections} = this.props
@@ -27,7 +33,15 @@ class Card extends React.Component {
                                 <div className='action-container'>
                                     <Icon type="mail" onClick={() => this.invitation(val.collection.name, val.collectionId, val.userId)}/>
                                     <Icon type="edit" onClick={() => this.editCollection(val.collectionId, val.collection.name, val.userId)}/>
-                                    <Icon type="delete" />
+                                    <Popconfirm 
+                                        title="Are you sure delete this collection?" 
+                                        onConfirm={this.confirm} 
+                                        onCancel={this.cancel} 
+                                        okText="Yes" 
+                                        cancelText="No"
+                                    >
+                                        <Icon type="delete" />
+                                    </Popconfirm>
                                 </div>
                             </div>
                         </div>
