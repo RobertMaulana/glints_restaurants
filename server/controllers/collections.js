@@ -1,9 +1,6 @@
-const Users = require('../models/users')
 const Invitations = require('../models/invitations')
 const Collections = require('../models/collections')
 const CollectionsRestaurants = require('../models/collectionsRestaurants')
-const bcrypt = require('bcrypt')
-const { validationResult } = require('express-validator/check')
 const sendInvitation = require('../helpers/sendMail')
 const randomToken = require('random-token').gen('89615B84CC6B2C8FBCCDB54CA6B97')
 
