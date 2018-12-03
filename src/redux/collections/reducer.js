@@ -3,7 +3,8 @@ import actions from './actions'
 const initState = {
   getCollectionsMessage: '',
   collections: [],
-  getInviteMessage: ''
+  getInviteMessage: '',
+  editCollectionMessage: ''
 }
 
 export default function restaurantReducer(state = initState, action) {
@@ -12,7 +13,8 @@ export default function restaurantReducer(state = initState, action) {
       return {
         ...state,
         getCollectionsMessage: '',
-        getInviteMessage: ''
+        getInviteMessage: '',
+        editCollectionMessage: ''
       }
     case actions.GET_COLLECTIONS_STATUS:
       return {
@@ -24,6 +26,11 @@ export default function restaurantReducer(state = initState, action) {
       return {
         ...state,
         getInviteMessage: action.getInviteMessage
+      }
+    case actions.EDIT_COLLECTIONS_STATUS:
+      return {
+        ...state,
+        editCollectionMessage: action.editCollectionMessage
       }
     default:
       return state

@@ -4,6 +4,7 @@ import actions from './actions'
 
 export function* getCollectionsByUserIdRequest() {
   yield takeEvery(actions.GET_COLLECTIONS, function*(payload) {
+    console.log(payload)
     let res = yield call(request.getCollectionsByUserId, payload)
     if (res.status === 200) {
       yield put({
@@ -40,19 +41,23 @@ export function* sendInvitationCollectionRequest() {
 
 export function* editCollectionRequest() {
   yield takeEvery(actions.EDIT_COLLECTIONS, function*(payload) {
+    let user_id = payload.payload.user_id
     let res = yield call(request.editCollection, payload)
-    console.log(res)
-    // if (res.status === 200) {
-    //   yield put({
-    //     type: actions.SEND_INVITATION_COLLECTIONS_STATUS,
-    //     getInviteMessage: 'success'
-    //   })
-    // } else {
-    //   yield put({
-    //     type: actions.SEND_INVITATION_COLLECTIONS_STATUS,
-    //     getInviteMessage: 'failed'
-    //   })
-    // }
+    if (res.status === 200) {
+      yield put({
+        type: actions.GET_COLLECTIONS,
+        payload: user_id
+      })
+      yield put({
+        type: actions.EDIT_COLLECTIONS_STATUS,
+        editCollectionMessage: 'success'
+      })
+    } else {
+      yield put({
+        type: actions.EDIT_COLLECTIONS_STATUS,
+        editCollectionMessage: 'failed'
+      })
+    }
   })
 }
 

@@ -5,6 +5,7 @@ const actions = {
   SEND_INVITATION_COLLECTIONS_STATUS: 'SEND_INVITATION_COLLECTIONS_STATUS',
   RESET_REDUX_COLLECTIONS: 'RESET_REDUX_COLLECTIONS',
   EDIT_COLLECTIONS: 'EDIT_COLLECTIONS',
+  EDIT_COLLECTIONS_STATUS: 'EDIT_COLLECTIONS_STATUS',
   getCollectionsByUserId: payload => ({
     type: actions.GET_COLLECTIONS,
     payload
@@ -26,6 +27,10 @@ const actions = {
   }),
   editCollections: payload => ({
     type: actions.EDIT_COLLECTIONS,
+    payload
+  }),
+  editCollectionStatue: payload => ({
+    type: actions.EDIT_COLLECTIONS_STATUS,
     payload
   })
 }

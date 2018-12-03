@@ -22,6 +22,7 @@ const sendInvitationCollaboration = async ({payload}) => {
 
 const editCollection = async ({payload}) => {
     try {
+        delete payload['user_id']
         const base = url.editCollectionUrl()
         return await postRequest(base, payload)
     } catch (error) {

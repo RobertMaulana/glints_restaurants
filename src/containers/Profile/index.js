@@ -31,11 +31,13 @@ class Profile extends React.Component {
         getInviteMessage: '',
         editCollectionPopup: false,
         collectionIdEdit: '',
-        collectionNameEdit: ''
+        collectionNameEdit: '',
+        editCollectionMessage: '',
+        userIdEdit: ''
     }
     componentWillReceiveProps(nextProps) {
         const {users, getUserDetailsMessage} = nextProps.Auth
-        const {collections, getCollectionsMessage, getInviteMessage} = nextProps.Collections
+        const {collections, getCollectionsMessage, getInviteMessage, editCollectionMessage} = nextProps.Collections
         if (getUserDetailsMessage !== '') {
             this.setState({
                 users,
@@ -50,7 +52,10 @@ class Profile extends React.Component {
         }
         if (getInviteMessage !== '') {
             this.setState({getInviteMessage})
-        }   
+        }
+        if (editCollectionMessage !== '') {
+            this.setState({editCollectionMessage})
+        }
     }
     componentDidMount() {
         this.setState({loadingGetCollection: true})
@@ -99,13 +104,17 @@ class Profile extends React.Component {
         this.setState({email: event.target.value})
     }
     handleCloseAlert = () => {
-        this.setState({ getInviteMessage: '' })
+        this.setState({ 
+            getInviteMessage: '',
+            editCollectionMessage: ''
+        })
         this.props.resetReduxCollections()
     }
-    editCollections = (id, name) => {
+    editCollections = (id, name, userId) => {
         this.setState({
             collectionNameEdit: name,
             collectionIdEdit: id,
+            userIdEdit: userId,
             editCollectionPopup: true
         })
     }
@@ -114,19 +123,21 @@ class Profile extends React.Component {
     }
     onSubmitEdit = e => {
         e.preventDefault()
-        const {collectionIdEdit, collectionNameEdit} = this.state
-        // if (getInviteMessage !== '') {
-        //     this.setState({
-        //         collaborateInvite: false,
-        //         getInviteMessage: '',
-        //         email: ''
-        //     })
-        //     this.props.resetReduxCollections()
-        //     return
-        // }
+        const {collectionIdEdit, collectionNameEdit, editCollectionMessage, userIdEdit} = this.state
+        if (editCollectionMessage !== '') {
+            this.setState({
+                editCollectionPopup: false,
+                editCollectionMessage: '',
+                collectionNameEdit: '',
+                collectionIdEdit: ''
+            })
+            this.props.resetReduxCollections()
+            return
+        }
         this.props.editCollections({
             collection_id: collectionIdEdit, 
-            collection_name: collectionNameEdit
+            collection_name: collectionNameEdit,
+            user_id: userIdEdit
         })
     }
     render() {
@@ -138,7 +149,8 @@ class Profile extends React.Component {
             collectionName,
             getInviteMessage,
             editCollectionPopup,
-            collectionNameEdit
+            collectionNameEdit,
+            editCollectionMessage
         } = this.state
         return (
             <ProfileContainer>
@@ -212,12 +224,36 @@ class Profile extends React.Component {
                             ]}
                             maskClosable={false}
                         >
+                            {
+                                (editCollectionMessage !== '' && editCollectionMessage === 'success') && (
+                                    <Alert
+                                        message="Collection updated"
+                                        type="success"
+                                        closable
+                                        afterClose={this.handleCloseAlert}
+                                    />
+                                )
+                            }
+                            {
+                                (editCollectionMessage !== '' && editCollectionMessage !== 'success') && (
+                                    <Alert
+                                        message="Failed to update collection"
+                                        type="error"
+                                        closable
+                                        afterClose={this.handleCloseAlert}
+                                    />
+                                )
+                            }
                             <form onSubmit={this.onSubmitEdit} id='myFormEdit'>
-                                <CollectionInput 
-                                    value={collectionNameEdit} 
-                                    onChange={this.onChangeCollectionName} 
-                                    required
-                                />
+                                {
+                                    editCollectionMessage === '' && (
+                                        <CollectionInput 
+                                            value={collectionNameEdit} 
+                                            onChange={this.onChangeCollectionName} 
+                                            required
+                                        />
+                                    )
+                                }
                             </form>
                         </Modal>
                         <Col span={12}>

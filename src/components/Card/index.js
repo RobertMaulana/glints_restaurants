@@ -10,8 +10,8 @@ class Card extends React.Component {
     invitation(name, colId, userId) {
         this.props.invitationCollaborate(name, colId, userId)
     }
-    editCollection(colId, name) {
-        this.props.editCollections(colId, name)
+    editCollection(colId, name, userId) {
+        this.props.editCollections(colId, name, userId)
     }
     render() {
         const {data, users, collections} = this.props
@@ -26,7 +26,7 @@ class Card extends React.Component {
                             <div className='action-card'>
                                 <div className='action-container'>
                                     <Icon type="mail" onClick={() => this.invitation(val.collection.name, val.collectionId, val.userId)}/>
-                                    <Icon type="edit" onClick={() => this.editCollection(val.collectionId, val.collection.name)}/>
+                                    <Icon type="edit" onClick={() => this.editCollection(val.collectionId, val.collection.name, val.userId)}/>
                                     <Icon type="delete" />
                                 </div>
                             </div>
