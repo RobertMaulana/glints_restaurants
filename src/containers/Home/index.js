@@ -3,7 +3,6 @@ import {connect} from 'react-redux'
 import { Layout, DatePicker, Row, Col, Button, Spin, Modal, Alert } from 'antd'
 import {DatePickerStyled, CollectionInput} from './home.style'
 import moment from 'moment'
-import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import Card from '../../components/Card'
 import restaurantActions from '../../redux/restaurants/actions'
@@ -116,7 +115,6 @@ class Home extends React.Component {
         return (
             <DatePickerStyled>
                 <Layout>
-                    <Header />
                     <Row style={{display: 'flex', justifyContent: 'center'}}>
                         <Modal
                             title="Add Collection"

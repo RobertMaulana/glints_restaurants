@@ -1,13 +1,18 @@
 import React from 'react'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, Redirect } from 'react-router-dom'
 import asyncComponent from '../../helpers/AsyncFunc'
 import NotFound from '../404'
 
 const routes = [
     {
-      path: '',
-      component: asyncComponent(() => import('../Home')),
-      icon: ''
+        path: '',
+        component: asyncComponent(() => import('../Home')),
+        icon: ''
+    },
+    {
+        path: 'profile',
+        component: asyncComponent(() => import('../Profile')),
+        icon: ''
     }
 ]
 

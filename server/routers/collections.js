@@ -18,4 +18,10 @@ router.get(
     controller.acceptCollectionsInvitation
 )
 
+router.get(
+    '/user/:id',
+    checkAuth,
+    controller.getRestaurantsByUserId
+)
+
 module.exports = router
