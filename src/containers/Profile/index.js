@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import { Layout, Row, Col, Spin, Avatar, Tabs, Modal, Button } from 'antd'
+import { Layout, Row, Col, Spin, Avatar, Tabs, Modal, Button, Alert } from 'antd'
 import {ProfileContainer, CollectionInput} from './profile.style'
 import authActions from '../../redux/auth/actions'
 import collectionActions from '../../redux/collections/actions'
@@ -10,7 +10,12 @@ const { Content } = Layout
 const TabPane = Tabs.TabPane
 
 const {getUserDetails} = authActions
-const {getCollectionsByUserId, inviteCollaborateCollections} = collectionActions
+const {
+    getCollectionsByUserId, 
+    inviteCollaborateCollections, 
+    resetReduxCollections,
+    editCollections
+} = collectionActions
 
 class Profile extends React.Component {
     state = {
@@ -22,11 +27,15 @@ class Profile extends React.Component {
         collectionName: '',
         email: '',
         collectionId: '',
-        userId: ''
+        userId: '',
+        getInviteMessage: '',
+        editCollectionPopup: false,
+        collectionIdEdit: '',
+        collectionNameEdit: ''
     }
     componentWillReceiveProps(nextProps) {
         const {users, getUserDetailsMessage} = nextProps.Auth
-        const {collections, getCollectionsMessage} = nextProps.Collections
+        const {collections, getCollectionsMessage, getInviteMessage} = nextProps.Collections
         if (getUserDetailsMessage !== '') {
             this.setState({
                 users,
@@ -39,6 +48,9 @@ class Profile extends React.Component {
                 loadingGetCollection: false
             })
         }
+        if (getInviteMessage !== '') {
+            this.setState({getInviteMessage})
+        }   
     }
     componentDidMount() {
         this.setState({loadingGetCollection: true})
@@ -51,33 +63,24 @@ class Profile extends React.Component {
         const {users} = this.state
         this.props.getCollectionsByUserId(users.id)
     }
-    handleOk = e => {
-        // const {idRestaurant, restaurantName, users, saveCollectionsMessage} = this.state
-        // if (restaurantName === '') {
-        //     alert('Collection name is mandatory')
-        //     return
-        // }
-        // if (saveCollectionsMessage !== '') {
-        //     this.setState({
-        //         collectionPopup: false,
-        //         saveCollectionsMessage: ''
-        //     })
-        //     this.props.resetRedux()
-        //     return
-        // }
-        // this.props.saveCollections({
-        //     restaurant_id: idRestaurant,
-        //     name: restaurantName,
-        //     user_id: users.id
-        // })
-    }
-    
     handleCancel = e => {
-        // this.setState({collectionPopup: false})
+        this.setState({
+            collaborateInvite: false,
+            editCollectionPopup: false
+        })
     }
     onSubmit = e => {
         e.preventDefault()
-        const {email, collectionId, userId} = this.state
+        const {email, collectionId, userId, getInviteMessage} = this.state
+        if (getInviteMessage !== '') {
+            this.setState({
+                collaborateInvite: false,
+                getInviteMessage: '',
+                email: ''
+            })
+            this.props.resetReduxCollections()
+            return
+        }
         this.props.inviteCollaborateCollections({
             email_to: email, 
             collection_id: collectionId, 
@@ -95,8 +98,48 @@ class Profile extends React.Component {
     onChangeEmail = event => {
         this.setState({email: event.target.value})
     }
+    handleCloseAlert = () => {
+        this.setState({ getInviteMessage: '' })
+        this.props.resetReduxCollections()
+    }
+    editCollections = (id, name) => {
+        this.setState({
+            collectionNameEdit: name,
+            collectionIdEdit: id,
+            editCollectionPopup: true
+        })
+    }
+    onChangeCollectionName = event => {
+        this.setState({collectionNameEdit: event.target.value})
+    }
+    onSubmitEdit = e => {
+        e.preventDefault()
+        const {collectionIdEdit, collectionNameEdit} = this.state
+        // if (getInviteMessage !== '') {
+        //     this.setState({
+        //         collaborateInvite: false,
+        //         getInviteMessage: '',
+        //         email: ''
+        //     })
+        //     this.props.resetReduxCollections()
+        //     return
+        // }
+        this.props.editCollections({
+            collection_id: collectionIdEdit, 
+            collection_name: collectionNameEdit
+        })
+    }
     render() {
-        const {loading, users, collections, collaborateInvite, collectionName} = this.state
+        const {
+            loading, 
+            users, 
+            collections, 
+            collaborateInvite, 
+            collectionName,
+            getInviteMessage,
+            editCollectionPopup,
+            collectionNameEdit
+        } = this.state
         return (
             <ProfileContainer>
                 <Layout>
@@ -118,12 +161,61 @@ class Profile extends React.Component {
                             ]}
                             maskClosable={false}
                         >
+                            {
+                                (getInviteMessage !== '' && getInviteMessage === 'success') && (
+                                    <Alert
+                                        message="Invitation sent"
+                                        type="success"
+                                        closable
+                                        afterClose={this.handleCloseAlert}
+                                    />
+                                )
+                            }
+                            {
+                                (getInviteMessage !== '' && getInviteMessage !== 'success') && (
+                                    <Alert
+                                        message="Invitation is failed to send"
+                                        type="error"
+                                        closable
+                                        afterClose={this.handleCloseAlert}
+                                    />
+                                )
+                            }
                             <form onSubmit={this.onSubmit} id='myForm'>
+                                {
+                                    getInviteMessage === '' && (
+                                        <CollectionInput 
+                                            type='email' 
+                                            value={this.state.email} 
+                                            onChange={this.onChangeEmail} 
+                                            placeholder='your friend email'
+                                            required
+                                        />
+                                    )
+                                }
+                            </form>
+                        </Modal>
+                        <Modal
+                            title={`Edit collection for ${collectionNameEdit}`}
+                            visible={editCollectionPopup}
+                            closable={false}
+                            footer={[
+                                <Button key={1} onClick={this.handleCancel}>Cancel</Button>,
+                                <Button 
+                                    key={2} 
+                                    type="submit" 
+                                    htmlType='submit'
+                                    form="myFormEdit"
+                                >
+                                    Ok
+                                </Button>
+                            ]}
+                            maskClosable={false}
+                        >
+                            <form onSubmit={this.onSubmitEdit} id='myFormEdit'>
                                 <CollectionInput 
-                                    type='email' 
-                                    value={this.state.email} 
-                                    onChange={this.onChangeEmail} 
-                                    placeholder='your friend email'
+                                    value={collectionNameEdit} 
+                                    onChange={this.onChangeCollectionName} 
                                     required
                                 />
                             </form>
@@ -143,6 +235,7 @@ class Profile extends React.Component {
                                                         collections={collections}
                                                         users={users}
                                                         invitationCollaborate={this.invitationCollaborate}
+                                                        editCollections={this.editCollections}
                                                     />
                                                 </Spin>
                                             </TabPane>
@@ -163,5 +256,11 @@ export default connect(
         Auth: state.Auth,
         Collections: state.Collections
     }),
-    {getUserDetails, getCollectionsByUserId, inviteCollaborateCollections}
+    {
+        getUserDetails, 
+        getCollectionsByUserId, 
+        inviteCollaborateCollections, 
+        resetReduxCollections, 
+        editCollections
+    }
 )(Profile)

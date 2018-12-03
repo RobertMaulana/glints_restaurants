@@ -8,7 +8,12 @@ const inviteCollaborationCollections = () => {
     return `${host}api/collections/invites`
 }
 
+const editCollectionUrl = () => {
+    return `${host}api/collections/edit`
+}
+
 export default {
     getCollectionsByUserIdUrl,
-    inviteCollaborationCollections
+    inviteCollaborationCollections,
+    editCollectionUrl
 }

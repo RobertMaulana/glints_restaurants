@@ -20,7 +20,17 @@ const sendInvitationCollaboration = async ({payload}) => {
     }
 }
 
+const editCollection = async ({payload}) => {
+    try {
+        const base = url.editCollectionUrl()
+        return await postRequest(base, payload)
+    } catch (error) {
+        return error
+    }
+}
+
 export default {
     getCollectionsByUserId,
-    sendInvitationCollaboration
+    sendInvitationCollaboration,
+    editCollection
 }

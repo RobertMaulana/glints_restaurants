@@ -24,4 +24,14 @@ router.get(
     controller.getRestaurantsByUserId
 )
 
+router.post(
+    '/edit',
+    [
+        check('collection_id').exists(),
+        check('collection_name').exists()
+    ],
+    checkAuth,
+    controller.editCollections
+)
+
 module.exports = router

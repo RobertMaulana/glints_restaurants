@@ -10,6 +10,9 @@ class Card extends React.Component {
     invitation(name, colId, userId) {
         this.props.invitationCollaborate(name, colId, userId)
     }
+    editCollection(colId, name) {
+        this.props.editCollections(colId, name)
+    }
     render() {
         const {data, users, collections} = this.props
         if (collections !== undefined && data === undefined) {
@@ -23,20 +26,9 @@ class Card extends React.Component {
                             <div className='action-card'>
                                 <div className='action-container'>
                                     <Icon type="mail" onClick={() => this.invitation(val.collection.name, val.collectionId, val.userId)}/>
-                                    <Icon type="edit" />
+                                    <Icon type="edit" onClick={() => this.editCollection(val.collectionId, val.collection.name)}/>
                                     <Icon type="delete" />
                                 </div>
-                                {/* {
-                                    val.collections_restaurants.length > 0 ? (
-                                        <Icon type="star" theme="filled" />
-                                    ) : (
-                                        <Icon 
-                                            type="star"
-                                            style={{cursor: 'pointer'}}
-                                            onClick={() => this.onFavourite(val.id, val.name)}
-                                        />
-                                    )
-                                } */}
                             </div>
                         </div>
                         <div>Created at: {moment(val.createdAt).format('YYYY-MM-DD hh:mm:ss')}</div>
