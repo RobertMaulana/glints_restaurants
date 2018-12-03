@@ -7,6 +7,9 @@ class Card extends React.Component {
     onFavourite = (id, name) => {
         this.props.collectionPopup(id, name, true)
     }
+    invitation(name, colId, userId) {
+        this.props.invitationCollaborate(name, colId, userId)
+    }
     render() {
         const {data, users, collections} = this.props
         if (collections !== undefined && data === undefined) {
@@ -19,6 +22,7 @@ class Card extends React.Component {
                             <p><strong>{val.collection.name}</strong></p>
                             <div className='action-card'>
                                 <div className='action-container'>
+                                    <Icon type="mail" onClick={() => this.invitation(val.collection.name, val.collectionId, val.userId)}/>
                                     <Icon type="edit" />
                                     <Icon type="delete" />
                                 </div>

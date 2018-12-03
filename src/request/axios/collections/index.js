@@ -1,4 +1,5 @@
 import getRequest from '../get'
+import postRequest from '../authPost'
 import url from '../../endpoint/collections'
 
 const getCollectionsByUserId = async ({payload}) => {
@@ -10,6 +11,16 @@ const getCollectionsByUserId = async ({payload}) => {
     }
 }
 
+const sendInvitationCollaboration = async ({payload}) => {
+    try {
+        const base = url.inviteCollaborationCollections()
+        return await postRequest(base, payload)
+    } catch (error) {
+        return error
+    }
+}
+
 export default {
-    getCollectionsByUserId
+    getCollectionsByUserId,
+    sendInvitationCollaboration
 }

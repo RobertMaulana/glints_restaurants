@@ -5,7 +5,7 @@ export const CardContainer = styled.div`
     margin: 10px 0;
     padding: 20px;
     .action-container {
-        width: 50px;
+        width: 70px;
         display: flex;
         justify-content: space-between;
     }
