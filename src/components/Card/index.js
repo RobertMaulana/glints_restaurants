@@ -7,7 +7,7 @@ class Card extends React.Component {
         this.props.collectionPopup(id, name, true)
     }
     render() {
-        const {data} = this.props
+        const {data, users} = this.props
         if (data.length > 0) {
             const mapRestaurants = data.map((val, index) => {
                 return (
@@ -17,11 +17,17 @@ class Card extends React.Component {
                         <div style={{display: 'flex', justifyContent: 'space-between'}}>
                             <p><strong>{val.name}</strong></p>
                             <span>
-                                <Icon 
-                                    type="star"
-                                    style={{cursor: 'pointer'}}
-                                    onClick={() => this.onFavourite(val.id, val.name)}
-                                />
+                                {
+                                    val.collections_restaurants.length > 0 ? (
+                                        <Icon type="star" theme="filled" />
+                                    ) : (
+                                        <Icon 
+                                            type="star"
+                                            style={{cursor: 'pointer'}}
+                                            onClick={() => this.onFavourite(val.id, val.name)}
+                                        />
+                                    )
+                                }
                             </span>
                         </div>
                         <div>{val.open}</div>

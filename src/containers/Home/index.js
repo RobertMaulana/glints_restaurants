@@ -110,7 +110,8 @@ class Home extends React.Component {
             restaurants, 
             collectionPopup,
             restaurantName,
-            saveCollectionsMessage
+            saveCollectionsMessage,
+            users
         } = this.state
         return (
             <DatePickerStyled>
@@ -185,6 +186,7 @@ class Home extends React.Component {
                                         <Card 
                                             data={restaurants}
                                             collectionPopup={this.onClickCollection}
+                                            users={users}
                                         />
                                     </div>
                                 </Content>

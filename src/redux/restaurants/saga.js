@@ -49,6 +49,9 @@ export function* saveCollectionsRequest() {
         saveCollectionsMessage: 'success',
         data: res.data,
       })
+      yield put({
+        type: actions.GET_RESTAURANTS
+      })
     } else {
       yield put({
         type: actions.SAVE_COLLECTIONS_STATUS,
