@@ -10,7 +10,6 @@ const routersCollections = require('./routers/collections')
 
 const port = process.env.PORT || 30001
 
-
 // Testing connect db
 db.authenticate()
   .then(() => {

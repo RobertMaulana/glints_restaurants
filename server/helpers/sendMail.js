@@ -1,8 +1,8 @@
+require('dotenv').config()
 const fs = require('fs')
 const path = require('path')
 const Handlebars = require('handlebars')
 const nodemailer = require('nodemailer')
-
 const file = path.join(__dirname, '..', 'templates', 'invitation.html')
 const template = fs.readFileSync(file).toString()
 
@@ -14,13 +14,13 @@ const sendInvitation = (opts = {}) => {
             port: 465,
             secure: true,
             auth: {
-                user: 'maulana.robert.mr@gmail.com',
-                pass: 'pgg773sG56'
+                user: process.env.USER_MAIL,
+                pass: process.env.PASS_MAIL
             }
         })
     
         let mailOptions = {
-            from: '"no reply" <maulana.robert.mr@gmail.com>',
+            from: '"no reply" <no-reply@gmail.com>',
             to: email,
             subject: 'Glints Restaurant Collection Invitation',
             html: Handlebars.compile(template)(opts)
