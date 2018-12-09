@@ -40,7 +40,7 @@ class Signin extends React.Component {
         this.props.signIn(payload)
     }
     signup = () => {
-        window.location.href = 'http://localhost:3000/signup'
+        window.location.href = `${process.env.REACT_APP_API_ENDPOINT}/signup`
     }
     render() {
         const { getFieldDecorator } = this.props.form

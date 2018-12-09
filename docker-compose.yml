@@ -1,0 +1,28 @@
+version: '3'
+services:
+  db:
+    image: mysql
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      POSTGRES_PASSWORD: root@123
+      POSTGRES_USER: root
+      POSTGRES_DB: db_restaurants
+    volumes:
+      - ./db-data/mysql:/var/lib/mysql/data
+  webapp:
+    restart: always
+    build:
+      dockerfile: deploy/env/${ENV-development}/Dockerfile
+      context: .
+    ports:
+      - "${PORT-3000}:${PORT-3000}"
+    volumes:
+      - .:/opt/webapp
+    env_file:
+      - deploy/env/${ENV-development}/dotenv
+    environment:
+      - NODE_ENV=${ENV-development}
+    depends_on:
+      - db

@@ -3,7 +3,7 @@ import {SignupContainer} from './signup.style'
 
 class Signup extends React.Component {
     signin = () => {
-        window.location.href = 'http://localhost:3000/signin'
+        window.location.href = `${process.env.REACT_APP_API_ENDPOINT}/signin`
     }
     render() {
         return (

@@ -39,7 +39,9 @@
     "client": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "build:local": "cp ./env-local ./.env && npm run build",
+    "immutable-start": "cp deploy/env/development/dotenv .env && cat .env && yarn build && yarn start"
   },
   "eslintConfig": {
     "extends": "react-app"

@@ -1,0 +1,15 @@
+NODE_ENV=development
+PORT=30001
+
+REACT_APP_HOST_ENV=local
+REACT_APP_URL=http://localhost:30001/
+
+USER_MAIL=maulana.robert.mr@gmail.com
+PASS_MAIL=pgg773sG56
+
+DB_NAME=db_restaurants
+DB_USERNAME=root
+DB_PASS=root@123
+DB_HOST=localhost
+DB_PORT=3306
+DB_DIALECT=mysql
